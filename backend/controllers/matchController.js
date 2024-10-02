@@ -1,4 +1,5 @@
 import teamModel from "../models/teamModel.js";
+import matchModel from "../models/matchModel.js";
 
 export const matchController = async (req, res) => {
   try {
@@ -24,6 +25,7 @@ export const matchController = async (req, res) => {
       availableTeams.add(teamB);
 
       updateTeamStatistics(teamStatistics, teamA, teamB, scoreA, scoreB);
+      updateMatchDatabase(teamA, teamB, scoreA, scoreB);
     }
 
     const teamNames = Array.from(availableTeams);
@@ -110,6 +112,17 @@ const updateTeamStatistics = (teamStatistics, teamA, teamB, scoreA, scoreB) => {
         teamStatistics[teamA].alternatePoints += 3;
         teamStatistics[teamB].alternatePoints += 3;
       }
+};
+
+const updateMatchDatabase = async (team, opponent, teamScore, opponentScore) => {
+    const match = new matchSchema({
+      team: team,
+      opponent: opponent,
+      teamScore: teamScore,
+      opponentScore: opponentScore
+    });
+
+    await match.save();
 };
 
 const groupTokens = (input) => {
