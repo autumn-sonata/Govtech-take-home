@@ -74,7 +74,7 @@ export const teamsController = async (req, res) => {
   } catch (error) {
     res.status(500).send({
       success: false,
-      message: "An unexplained error occurred.",
+      message: "An unexplained error occurred when adding teams.",
       data: error,
     });
   }
