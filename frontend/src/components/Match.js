@@ -3,9 +3,8 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { TextField, Button, Typography, Paper, Grid } from "@mui/material";
 
-function Match() {
+function Match({ matchResults, setMatchResults }) {
   const [matchInfo, setMatchInfo] = useState("");
-  const [matchResults, setMatchResults] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

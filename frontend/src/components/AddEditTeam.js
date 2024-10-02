@@ -3,7 +3,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { TextField, Button, Typography, Paper, Grid } from "@mui/material";
 
-function AddEditTeam() {
+function AddEditTeam({ clearMatchResults }) {
   const [teamsInfo, setTeamsInfo] = useState("");
 
   const handleAddTeams = async (e) => {
@@ -13,6 +13,7 @@ function AddEditTeam() {
         teamsInfo,
       });
       if (data?.success) {
+        clearMatchResults();
         toast.success("Teams added successfully!");
       } else {
         toast.error(`${data.message}`);
@@ -29,6 +30,7 @@ function AddEditTeam() {
         teamsInfo,
       });
       if (data?.success) {
+        clearMatchResults();
         toast.success("Teams edited successfully!");
       } else {
         toast.error(`${data.message}`);

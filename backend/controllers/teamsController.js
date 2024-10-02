@@ -78,6 +78,7 @@ export const teamsController = async (req, res) => {
       });
     });
 
+    await teamModel.deleteMany({});
     await teamModel.insertMany(validTeams);
 
     res.status(200).json({
