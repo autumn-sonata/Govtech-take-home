@@ -75,7 +75,7 @@ function Match({ matchResults, setMatchResults }) {
       {matchResults && (
         <div className="match-results mt-4">
           <Typography variant="h6" component="h3" className="font-bold mb-2">
-            Match Results
+            Overall First Round Results
           </Typography>
           {Object.entries(matchResults).map(([group, teams]) => (
             <div key={group} className="group mb-3">
