@@ -1,12 +1,26 @@
 import React, { useState } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
 import { TextField, Button, Typography, Paper } from "@mui/material";
 
 function AddTeam() {
   const [teamsInfo, setTeamsInfo] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Some add team logic
+    toast.success("Teams added successfully!");
+    try {
+      const { data } = await axios.post("/api/teams/", {
+        teamsInfo,
+      });
+      if (data?.success) {
+        toast.success("Teams added successfully!");
+      } else {
+        toast.error(`${data.message}`);
+      }
+    } catch (error) {
+      toast.error("Something wrong occurred for input");
+    }
   };
 
   return (
