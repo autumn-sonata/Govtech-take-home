@@ -2,16 +2,14 @@ import { parse, isValid } from "date-fns";
 
 export const teamsController = async (req, res) => {
   try {
-    // TODO: Check req.body entering
-    const { data } = req.body;
-    const lines = data.trim().split("\n");
+    const data = req.body.teamsInfo;
+    const teams = groupTokens(data.trim().replace(/\n/g, " "));
     const teamRegex = /^(\w+)\s(\d{2}\/\d{2})\s(\d+)$/;
     const errors = [];
     const uniqueTeams = new Set();
 
-    lines.forEach((line, index) => {
-      const match = line.trim().match(teamRegex);
-
+    teams.forEach((team, index) => {
+      const match = team.trim().match(teamRegex);
       if (!match) {
         errors.push(
           `Entry ${
@@ -58,7 +56,7 @@ export const teamsController = async (req, res) => {
 
     if (errors.length == 0) {
       // TODO: Add to database
-      
+
       res.status(200).send({
         success: true,
         message: "Teams successfully added!",
@@ -80,4 +78,16 @@ export const teamsController = async (req, res) => {
       data: error,
     });
   }
+};
+
+const groupTokens = (input) => {
+  const tokens = input.split(/\s+/);
+  const groupedLines = [];
+
+  for (let i = 0; i < tokens.length; i += 3) {
+    const group = tokens.slice(i, i + 3).join(" ");
+    groupedLines.push(group);
+  }
+
+  return groupedLines
 };
