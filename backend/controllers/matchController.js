@@ -2,10 +2,11 @@ import teamModel from "../models/teamModel.js";
 
 export const matchController = async (req, res) => {
   try {
+    // match information will not be persistent
     const matchResults = req.body.matchInfo;
     const matchOutcomes = groupTokens(matchResults.trim().replace(/\n/g, " "));
-    const teamStatistics = {};
-    const availableTeams = new Set();
+    const teamStatistics = {}; // information of each team from matches
+    const availableTeams = new Set(); // teams to be queried from the database
 
     for (const matchOutcome of matchOutcomes) {
       const [teamA, teamB, goalsA, goalsB] = matchOutcome.split(" ");

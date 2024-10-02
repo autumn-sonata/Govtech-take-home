@@ -92,16 +92,24 @@ function Match({ matchResults, setMatchResults }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {teams.map((team) => (
-                    <tr key={team.name}>
-                      <td className="border px-4 py-2">{team.name}</td>
-                      <td className="border px-4 py-2">{team.points}</td>
-                      <td className="border px-4 py-2">{team.goals}</td>
-                      <td className="border px-4 py-2">
-                        {new Date(team.registerDate).toLocaleDateString()}
-                      </td>
-                    </tr>
-                  ))}
+                  {teams.map((team, index) => {
+                    const isHighlighted =
+                      teams.length <= 4 || index < 4; // Highlight if 4 or less teams or top 4
+
+                    return (
+                      <tr
+                        key={team.name}
+                        className={isHighlighted ? "bg-green-200" : ""} // Highlighting
+                      >
+                        <td className="border px-4 py-2">{team.name}</td>
+                        <td className="border px-4 py-2">{team.points}</td>
+                        <td className="border px-4 py-2">{team.goals}</td>
+                        <td className="border px-4 py-2">
+                          {new Date(team.registerDate).toLocaleDateString()}
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
