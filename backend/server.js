@@ -1,10 +1,17 @@
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
+import dotenv from "dotenv";
 import teamRoutes from "./routes/teamRoutes.js";
+import connectDataBase from "./db/db.js";
 
 const app = express();
 const PORT = process.env.PORT || 3500;
+
+// Configure the environment
+dotenv.config();
+
+connectDataBase();
 
 // Middleware
 app.use(cors());
