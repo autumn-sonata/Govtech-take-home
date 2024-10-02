@@ -1,7 +1,4 @@
 {
-  "dependencies": {
-    "date-fns": "^4.1.0"
-  },
   "scripts": {
     "start": "concurrently \"npm run start --prefix backend\" \"npm run start --prefix frontend\""
   },
