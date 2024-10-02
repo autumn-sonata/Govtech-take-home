@@ -8,7 +8,6 @@ function AddEditTeam() {
 
   const handleAddTeams = async (e) => {
     e.preventDefault();
-    toast.success("Teams added successfully!");
     try {
       const { data } = await axios.post("/api/teams/", {
         teamsInfo,
@@ -25,13 +24,13 @@ function AddEditTeam() {
 
   const handleEditTeams = async (e) => {
     e.preventDefault();
-    toast.success("Teams added successfully!");
+    toast.success("Teams edited successfully!");
     try {
       const { data } = await axios.put("/api/teams/", {
         teamsInfo,
       });
       if (data?.success) {
-        toast.success("Teams added successfully!");
+        toast.success("Teams edited successfully!");
       } else {
         toast.error(`${data.message}`);
       }
