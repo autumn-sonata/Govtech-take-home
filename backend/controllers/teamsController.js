@@ -78,6 +78,7 @@ export const teamsController = async (req, res) => {
       });
     });
 
+    // Update database
     await teamModel.deleteMany({});
     await teamModel.insertMany(validTeams);
 

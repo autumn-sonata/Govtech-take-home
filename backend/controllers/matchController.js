@@ -2,7 +2,6 @@ import teamModel from "../models/teamModel.js";
 
 export const matchController = async (req, res) => {
   try {
-    // match information will not be persistent
     const matchResults = req.body.matchInfo;
     const matchOutcomes = groupTokens(matchResults.trim().replace(/\n/g, " "));
     const teamStatistics = {}; // information of each team from matches
@@ -24,41 +23,7 @@ export const matchController = async (req, res) => {
       availableTeams.add(teamA);
       availableTeams.add(teamB);
 
-      if (!teamStatistics[teamA]) {
-        teamStatistics[teamA] = {
-          name: teamA,
-          points: 0,
-          goals: 0,
-          alternatePoints: 0,
-        };
-      }
-      if (!teamStatistics[teamB]) {
-        teamStatistics[teamB] = {
-          name: teamB,
-          points: 0,
-          goals: 0,
-          alternatePoints: 0,
-        };
-      }
-
-      teamStatistics[teamA].goals += scoreA;
-      teamStatistics[teamB].goals += scoreB;
-
-      if (scoreA > scoreB) {
-        teamStatistics[teamA].points += 3;
-        teamStatistics[teamA].alternatePoints += 5;
-        teamStatistics[teamB].alternatePoints += 1;
-      } else if (scoreA < scoreB) {
-        teamStatistics[teamB].points += 3;
-        teamStatistics[teamB].alternatePoints += 5;
-        teamStatistics[teamA].alternatePoints += 1;
-      } else {
-        // Draw
-        teamStatistics[teamA].points += 1;
-        teamStatistics[teamB].points += 1;
-        teamStatistics[teamA].alternatePoints += 3;
-        teamStatistics[teamB].alternatePoints += 3;
-      }
+      updateTeamStatistics(teamStatistics, teamA, teamB, scoreA, scoreB);
     }
 
     const teamNames = Array.from(availableTeams);
@@ -107,6 +72,44 @@ export const matchController = async (req, res) => {
       data: error,
     });
   }
+};
+
+const updateTeamStatistics = (teamStatistics, teamA, teamB, scoreA, scoreB) => {
+    if (!teamStatistics[teamA]) {
+        teamStatistics[teamA] = {
+          name: teamA,
+          points: 0,
+          goals: 0,
+          alternatePoints: 0,
+        };
+      }
+      if (!teamStatistics[teamB]) {
+        teamStatistics[teamB] = {
+          name: teamB,
+          points: 0,
+          goals: 0,
+          alternatePoints: 0,
+        };
+      }
+
+      teamStatistics[teamA].goals += scoreA;
+      teamStatistics[teamB].goals += scoreB;
+
+      if (scoreA > scoreB) {
+        teamStatistics[teamA].points += 3;
+        teamStatistics[teamA].alternatePoints += 5;
+        teamStatistics[teamB].alternatePoints += 1;
+      } else if (scoreA < scoreB) {
+        teamStatistics[teamB].points += 3;
+        teamStatistics[teamB].alternatePoints += 5;
+        teamStatistics[teamA].alternatePoints += 1;
+      } else {
+        // Draw
+        teamStatistics[teamA].points += 1;
+        teamStatistics[teamB].points += 1;
+        teamStatistics[teamA].alternatePoints += 3;
+        teamStatistics[teamB].alternatePoints += 3;
+      }
 };
 
 const groupTokens = (input) => {
