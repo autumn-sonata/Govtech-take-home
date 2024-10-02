@@ -75,7 +75,7 @@ export const teamsController = async (req, res) => {
       validTeams.push({
         name: name,
         registerDate: parsedDate,
-        group: group
+        group: group,
       });
     });
 

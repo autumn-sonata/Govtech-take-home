@@ -19,4 +19,6 @@ const matchSchema = new mongoose.Schema({
   },
 });
 
+matchSchema.index({ team: 1, opponent: 1, teamScore: 1, opponentScore: 1 }, { unique: true });
+
 export default mongoose.model("Match", matchSchema);

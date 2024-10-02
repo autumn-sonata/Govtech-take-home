@@ -1,5 +1,46 @@
 import teamModel from "../models/teamModel.js";
-import matchModel from "../models/matchModel.js";
+import Match from "../models/matchModel.js";
+
+export const getTeamMatchesController = async (req, res) => {
+  const teamName = req.params.teamName;
+
+  try {
+    const matches = await Match.find({
+      $or: [{ team: teamName }, { opponent: teamName }],
+    });
+
+    // Format matches so that the teamName appears on the team side
+    const formattedMatches = matches.map((match) => {
+      if (match.opponent === teamName) {
+        return {
+          team: match.opponent,
+          opponent: match.team,
+          teamScore: match.opponentScore,
+          opponentScore: match.teamScore,
+        };
+      }
+      return match;
+    });
+
+    if (matches.length > 0) {
+      res.status(200).json({
+        success: true,
+        message: "Successfully retrieved matches!",
+        data: formattedMatches,
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: "No matches found for this team.",
+        data: {},
+      });
+    }
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Server error.", data: {} });
+  }
+};
 
 export const matchController = async (req, res) => {
   try {
@@ -77,52 +118,57 @@ export const matchController = async (req, res) => {
 };
 
 const updateTeamStatistics = (teamStatistics, teamA, teamB, scoreA, scoreB) => {
-    if (!teamStatistics[teamA]) {
-        teamStatistics[teamA] = {
-          name: teamA,
-          points: 0,
-          goals: 0,
-          alternatePoints: 0,
-        };
-      }
-      if (!teamStatistics[teamB]) {
-        teamStatistics[teamB] = {
-          name: teamB,
-          points: 0,
-          goals: 0,
-          alternatePoints: 0,
-        };
-      }
+  if (!teamStatistics[teamA]) {
+    teamStatistics[teamA] = {
+      name: teamA,
+      points: 0,
+      goals: 0,
+      alternatePoints: 0,
+    };
+  }
+  if (!teamStatistics[teamB]) {
+    teamStatistics[teamB] = {
+      name: teamB,
+      points: 0,
+      goals: 0,
+      alternatePoints: 0,
+    };
+  }
 
-      teamStatistics[teamA].goals += scoreA;
-      teamStatistics[teamB].goals += scoreB;
+  teamStatistics[teamA].goals += scoreA;
+  teamStatistics[teamB].goals += scoreB;
 
-      if (scoreA > scoreB) {
-        teamStatistics[teamA].points += 3;
-        teamStatistics[teamA].alternatePoints += 5;
-        teamStatistics[teamB].alternatePoints += 1;
-      } else if (scoreA < scoreB) {
-        teamStatistics[teamB].points += 3;
-        teamStatistics[teamB].alternatePoints += 5;
-        teamStatistics[teamA].alternatePoints += 1;
-      } else {
-        // Draw
-        teamStatistics[teamA].points += 1;
-        teamStatistics[teamB].points += 1;
-        teamStatistics[teamA].alternatePoints += 3;
-        teamStatistics[teamB].alternatePoints += 3;
-      }
+  if (scoreA > scoreB) {
+    teamStatistics[teamA].points += 3;
+    teamStatistics[teamA].alternatePoints += 5;
+    teamStatistics[teamB].alternatePoints += 1;
+  } else if (scoreA < scoreB) {
+    teamStatistics[teamB].points += 3;
+    teamStatistics[teamB].alternatePoints += 5;
+    teamStatistics[teamA].alternatePoints += 1;
+  } else {
+    // Draw
+    teamStatistics[teamA].points += 1;
+    teamStatistics[teamB].points += 1;
+    teamStatistics[teamA].alternatePoints += 3;
+    teamStatistics[teamB].alternatePoints += 3;
+  }
 };
 
-const updateMatchDatabase = async (team, opponent, teamScore, opponentScore) => {
-    const match = new matchSchema({
-      team: team,
-      opponent: opponent,
-      teamScore: teamScore,
-      opponentScore: opponentScore
-    });
+const updateMatchDatabase = async (
+  team,
+  opponent,
+  teamScore,
+  opponentScore
+) => {
+  const match = new Match({
+    team: team,
+    opponent: opponent,
+    teamScore: teamScore,
+    opponentScore: opponentScore,
+  });
 
-    await match.save();
+  await match.save();
 };
 
 const groupTokens = (input) => {
