@@ -1,4 +1,5 @@
 import { parse, isValid } from "date-fns";
+import teamModel from "../models/teamModel.js";
 
 export const teamsController = async (req, res) => {
   try {
@@ -77,7 +78,7 @@ export const teamsController = async (req, res) => {
       });
     });
 
-    // TODO: Add to database
+    await teamModel.insertMany(validTeams);
 
     res.status(200).json({
       success: true,
