@@ -19,13 +19,15 @@ function HomePage() {
     <div className="App h-screen flex flex-col justify-between">
       <TopMargin />
       <main className="flex-grow flex flex-col items-center justify-center">
-        <div className="my-4" />
-        <AddEditTeam clearMatchResults={clearMatchResults} />
-        <div className="my-4" />
-        <Match matchResults={matchResults} setMatchResults={setMatchResults} />
-        <div className="my-4" />
-        <SearchTeam teamMatches={teamMatches} setTeamMatches={setTeamMatches} />
-        <div className="my-4" />
+        <div className="space-y-4 w-full max-w-3xl mx-auto">
+          <div className="py-4">
+            <AddEditTeam clearMatchResults={clearMatchResults} className="w-full" />
+          </div>
+          <Match matchResults={matchResults} setMatchResults={setMatchResults} className="w-full" />
+          <div className="py-4">
+            <SearchTeam teamMatches={teamMatches} setTeamMatches={setTeamMatches} className="w-full" />
+          </div>
+        </div>
       </main>
       <BottomMargin />
     </div>
