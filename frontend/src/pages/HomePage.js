@@ -12,6 +12,7 @@ function HomePage() {
         <AddEditTeam />
         <div className="my-4" />
         <Match />
+        <div className="my-4" />
       </main>
       <BottomMargin />
     </div>
