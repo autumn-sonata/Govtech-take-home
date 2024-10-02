@@ -81,7 +81,7 @@ export const teamsController = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "Teams successfully added!",
+      message: "Teams successfully added or edited!",
       data: teams,
     });
   } catch (error) {

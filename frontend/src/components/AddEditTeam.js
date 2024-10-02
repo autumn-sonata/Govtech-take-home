@@ -24,7 +24,6 @@ function AddEditTeam() {
 
   const handleEditTeams = async (e) => {
     e.preventDefault();
-    toast.success("Teams edited successfully!");
     try {
       const { data } = await axios.put("/api/teams/", {
         teamsInfo,
