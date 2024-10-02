@@ -43,6 +43,16 @@ function Match() {
           margin="normal"
           value={matchInfo}
           onChange={(e) => setMatchInfo(e.target.value)}
+          multiline
+          rows={4}
+          slotProps={{
+            input: {
+              style: {
+                maxHeight: '150px',
+                overflowY: 'auto',
+              },
+            },
+          }}
         />
         <Grid container spacing={2}>
           <Grid item>

@@ -61,6 +61,16 @@ function AddEditTeam() {
           margin="normal"
           value={teamsInfo}
           onChange={(e) => setTeamsInfo(e.target.value)}
+          multiline
+          rows={4}
+          slotProps={{
+            input: {
+              style: {
+                maxHeight: '150px',
+                overflowY: 'auto',
+              },
+            },
+          }}
         />
         <Grid container spacing={2}>
           <Grid item>
