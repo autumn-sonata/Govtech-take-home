@@ -1,6 +1,5 @@
 {
   "name": "we_are_the_champions",
-  "proxy": "http://localhost:3500",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -47,5 +46,6 @@
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.13"
-  }
+  },
+  "proxy": "http://localhost:3500"
 }
