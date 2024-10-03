@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "3500:3500"
+    volumes:
+      - ./backend:/usr/src/app
+    networks:
+      - champions
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3500/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/usr/src/app
+    environment:
+      - NODE_ENV=development
+      - REACT_APP_API_HOST=http://backend:3500
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - champions
+
+networks:
+  champions:
+    driver: bridge

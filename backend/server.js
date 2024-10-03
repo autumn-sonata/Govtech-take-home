@@ -18,12 +18,17 @@ connectDataBase();
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 
 app.use("/api/teams", teamRoutes);
 app.use("/api/matches", matchRoutes);
 app.use("/api/clear", clearRoutes);
 
+// For docker health check
+app.get("/health", (req, res) => {
+  res.status(200).send("OK");
+});
+
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
