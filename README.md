@@ -1,7 +1,7 @@
 # Govtech-take-home
 
 ## Running the project
-- To run the full project, access: `54.169.161.237:3000`
+- To run the full project, access: `http://13.229.231.74:3000`
 - However, you can also run `docker-compose up` from the root directory but without the MongoDB set up.
 
 ## NOTE: Assumptions
